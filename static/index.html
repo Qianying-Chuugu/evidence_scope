@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f2">
+  <title>EvidenceScope · PDF 研究助手</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <div>
+          <strong>EvidenceScope</strong>
+          <span>本地 PDF 研究助手</span>
+        </div>
+      </div>
+      <span id="connection-status" class="connection-status" role="status">正在连接服务…</span>
+    </header>
+
+    <main>
+      <div class="workspace">
+        <section class="card question-card" aria-labelledby="question-title">
+          <div class="section-heading">
+            <span class="step">01</span>
+            <div>
+              <h2 id="question-title">提出研究问题</h2>
+              <p>写清主题、文件或时间范围，有助于准确检索。</p>
+            </div>
+          </div>
+
+          <form id="question-form">
+            <label class="field-label" for="question">你的问题</label>
+            <textarea id="question" name="question" rows="7" maxlength="2000"
+              placeholder="例如：比较宁德时代 2024 年和 2025 年的营业收入变化，并说明依据。"
+              aria-describedby="question-hint" required></textarea>
+            <div class="input-meta">
+              <span id="question-hint">按 Ctrl + Enter 发送</span>
+              <span id="character-count">0 / 2000</span>
+            </div>
+            <button id="send-button" class="send-button" type="submit">
+              <span id="button-label">开始研究</span>
+              <span id="button-spinner" class="spinner" hidden aria-hidden="true"></span>
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+          </form>
+        </section>
+
+        <section id="documents-panel" class="card documents-panel" aria-labelledby="documents-title">
+          <div class="section-heading">
+            <span class="step">02</span>
+            <div>
+              <h2 id="documents-title">管理 PDF</h2>
+              <p id="document-count">正在读取文档…</p>
+            </div>
+          </div>
+          <form id="upload-form" class="upload-form">
+            <label for="pdf-file">添加可提取文字的 PDF</label>
+            <div class="upload-controls">
+              <input id="pdf-file" name="file" type="file" accept=".pdf,application/pdf" required>
+              <button id="upload-button" type="submit">上传并建立索引</button>
+            </div>
+          </form>
+          <p id="documents-status" class="documents-status" role="status" aria-live="polite"></p>
+          <ul id="document-list" class="document-list" aria-label="已加入的 PDF"></ul>
+        </section>
+
+        <section id="result-card" class="card result-card" aria-labelledby="result-title" aria-busy="false">
+          <div class="section-heading">
+            <span class="step">03</span>
+            <div>
+              <h2 id="result-title">研究结果</h2>
+              <p id="answer-state" class="answer-state" role="status">等待提问</p>
+            </div>
+          </div>
+          <div id="answer" class="answer empty" aria-live="polite">回答会显示在这里。检索和模型分析可能需要一点时间。</div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <span>文档来自本地 <code>data/documents/</code> 目录。</span>
+      <span>每次提问独立处理；重要结论请核对引用原文。</span>
+    </footer>
+  </div>
+</body>
+</html>
