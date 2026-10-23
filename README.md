@@ -1,30 +1,49 @@
+<div align="center">
+
 # EvidenceScope
 
-**让本地 PDF 研究有据可查。**
+### 让本地 PDF 研究有据可查
 
-EvidenceScope 是面向本地 PDF 文档研究的 AI Agent 应用。它通过工具调用选择检索范围，从文档中寻找相关原文，并在回答中提供文件名、PDF 页码和 Chunk ID，方便用户回查依据。
+面向本地 PDF 的 AI Agent：由模型调用检索工具，找到相关原文，并在回答中给出可回查的来源。
 
-`Python` · `FastAPI` · `DeepSeek API` · `BM25` · `BGE Embedding` · `RRF` · `BGE Reranker`
+**上传 PDF → 提出问题 → 检索证据 → 核对原文**
 
-> PDF 和索引保存在运行项目的电脑上；问题与检索返回的原文会发送给 DeepSeek API。
+[核心功能](#核心功能) · [技术亮点](#技术亮点) · [系统架构](#系统架构) · [快速开始](#快速开始) · [当前限制](#当前限制与后续方向)
+
+`Python` · `FastAPI` · `DeepSeek API` · `BM25 + Dense` · `BGE Reranker`
+
+</div>
+
+> [!IMPORTANT]
+> PDF 和索引保存在运行项目的电脑上；问题与检索返回的原文会发送给 DeepSeek API。回答中的引用由模型生成，重要结论请回到原 PDF 核对。
 
 ## 核心功能
 
-- **PDF 管理：**在网页上传、查看和删除 PDF；上传时检查类型、大小、可提取文字及重复内容，单个文件上限为 50 MB。
-- **索引同步：**扫描本地目录，为新增或变化的 PDF 生成分块；删除文档时移除索引。向量按文档保存，在需要检索时生成或检查。
-- **Agent 工具调用：**`AgentHarness` 将文档目录交给模型，由模型选择 `search_evidence` 的查询和文档范围；工具结果回填后，模型可继续检索，最多执行 8 轮。
-- **混合检索与重排：**BM25 和 Dense Retrieval 分别召回候选，使用加权 RRF 融合排名，再由 BGE Reranker 重排。
-- **来源追溯：**检索工具返回原文、文件名、PDF 页码和完整 Chunk ID；模型据此在回答中标注依据，用户可回到原 PDF 核对。
+| 能力 | 实际行为 |
+| --- | --- |
+| **文档管理** | 在网页上传、查看和删除 PDF；校验类型、大小、可提取文字及重复内容，单文件上限 50 MB |
+| **索引同步** | 为新增或变化的 PDF 更新分块，删除文档时移除索引；向量按文档保存 |
+| **Agent 工具调用** | 模型选择 `search_evidence` 的查询和文档范围，读取结果后可继续检索，最多执行 8 轮 |
+| **混合检索** | BM25 与 Dense Retrieval 分别召回，经加权 RRF 融合、BGE Reranker 重排 |
+| **来源追溯** | 检索工具提供原文、文件名、PDF 页码和完整 Chunk ID，供回答引用及人工回查 |
 
 ## 技术亮点
 
-**Agent 管理检索过程。** `AgentHarness` 发起模型调用、执行模型请求的工具、把结果加入对话，并控制迭代次数。文档目录帮助模型选择文件；检索到的原文才是回答事实问题的依据。
+### 01 · Agent 管理检索过程
 
-**两条召回路径互补。** BM25 适合匹配名称、数字和术语等明确词汇；基于 BGE Embedding 的 Dense Retrieval 用语义相似度寻找不同表述的片段。两路结果共同提供候选，减少对单一匹配方式的依赖。
+`AgentHarness` 发起模型调用、执行模型请求的工具、把结果加入对话，并控制迭代次数。文档目录帮助模型选择文件；检索到的原文才是回答事实问题的依据。
 
-**融合与重排分工明确。** BM25 与 Dense 的原始分数不直接相加；加权 RRF 根据各自排名合并候选，随后 BGE Reranker 同时读取问题与候选原文，重新排序相关片段。当前权重为 BM25 `1.5`、Dense `1.0`，不代表对所有文档都最优。
+### 02 · 两条召回路径互补
 
-**文档变化可同步，证据可定位。** `IndexManager` 用清单记录文档状态，只重新分块需要更新的文件，并使变化文档的向量失效。文档目录变化也会清除检索缓存。来源、页码与 Chunk ID 有助于定位原文，但回答与证据是否一致仍需人工核对。
+BM25 适合匹配名称、数字和术语等明确词汇；基于 BGE Embedding 的 Dense Retrieval 用语义相似度寻找不同表述的片段。两路结果共同提供候选，减少对单一匹配方式的依赖。
+
+### 03 · 融合与重排分工明确
+
+BM25 与 Dense 的原始分数不直接相加；加权 RRF 根据各自排名合并候选，随后 BGE Reranker 同时读取问题与候选原文，重新排序相关片段。当前权重为 BM25 `1.5`、Dense `1.0`，不代表对所有文档都最优。
+
+### 04 · 文档变化可同步，证据可定位
+
+`IndexManager` 用清单记录文档状态，只重新分块需要更新的文件，并使变化文档的向量失效。文档目录变化也会清除检索缓存。来源、页码与 Chunk ID 有助于定位原文，但回答与证据是否一致仍需人工核对。
 
 ## 系统架构
 
@@ -55,6 +74,8 @@ flowchart LR
 
 以下命令适用于 Windows PowerShell，建议使用 Python 3.12。安装依赖和下载模型需要网络连接。
 
+**1. 安装依赖并配置密钥**
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
@@ -63,7 +84,9 @@ Copy-Item .env.example .env
 
 在 `.env` 中填入自己的 `DEEPSEEK_API_KEY`。该文件已由 `.gitignore` 排除，请勿提交。
 
-预先下载本地检索模型；Reranker 需要已缓存的模型才能运行：
+**2. 下载模型并启动**
+
+Reranker 需要已缓存的模型才能运行：
 
 ```powershell
 .\.venv\Scripts\python.exe -c "from huggingface_hub import snapshot_download; snapshot_download('BAAI/bge-small-zh-v1.5'); snapshot_download('BAAI/bge-reranker-base')"
