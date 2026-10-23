@@ -109,7 +109,18 @@ Reranker 需要已缓存的模型才能运行：
 .\.venv\Scripts\python.exe -m uvicorn api:app --host 127.0.0.1 --port 8000
 ```
 
-浏览器打开 <http://127.0.0.1:8000/>，上传可提取文字的 PDF 后即可提问。也可运行 `.\.venv\Scripts\python.exe main.py` 使用命令行入口。
+> [!NOTE]
+> **首次运行需要等待：**安装命令会下载 Python 依赖；模型命令会从 Hugging Face 下载 `BAAI/bge-small-zh-v1.5` 和 `BAAI/bge-reranker-base`，并占用额外磁盘空间。首次同步 PDF 索引、生成向量或加载模型时，响应可能比后续查询慢。若模型下载失败，请先查看 PowerShell 中的报错，检查是否能访问 Hugging Face，以及网络代理和模型缓存目录的读写权限；修复后重新运行模型下载命令。磁盘占用取决于实际下载的文件，本项目未提供固定数值。
+
+浏览器打开 <http://127.0.0.1:8000/>。仓库已附带 `BYD_2025.pdf`、`CATL_2025.pdf` 和 `NIST.AI.100-1.pdf.pdf`，无需先上传文件即可提问；也可以上传自己的可提取文字的 PDF。命令行入口为 `.\.venv\Scripts\python.exe main.py`。
+
+### 示例问题
+
+可以直接复制到网页中试用：
+
+- 根据 `NIST.AI.100-1.pdf.pdf`，GOVERN 为什么是跨领域功能？请列出依据所在的 PDF 页码和 Chunk ID。
+- 比较 `BYD_2025.pdf` 与 `CATL_2025.pdf` 中披露的 2025 年营业收入，并分别给出原文位置。
+- 在 `CATL_2025.pdf` 中查找营业收入同比变化的依据，返回相关页码和 Chunk ID。
 
 ## 项目目录
 
