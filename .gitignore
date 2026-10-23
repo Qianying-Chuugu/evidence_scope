@@ -1,9 +1,13 @@
-# 密钥留在本机；PDF 可提交，自动生成的索引不提交
+# 密钥与自动生成的索引留在本机
 .env
 .env.*
 !.env.example
 data/indexes/*
 !data/indexes/.gitkeep
+
+# 企业年报仅供本地使用，不随仓库再分发
+data/documents/BYD_2025.pdf
+data/documents/CATL_2025.pdf
 
 # Python 虚拟环境与缓存
 .venv/

@@ -22,7 +22,7 @@
 <div align="center">
   <img src="static/evidence-scope-demo.png" alt="EvidenceScope 实际网页：提问、PDF 管理和带来源信息的研究结果" width="100%">
   <br>
-  <sub>实际运行界面：提问、管理 PDF，并查看带来源信息的回答。截图仅作功能演示，结论仍需核对原文。</sub>
+  <sub>实际运行界面：提问、管理 PDF，并查看带来源信息的回答。截图中的企业年报由使用者本地添加；结论仍需核对原文。</sub>
 </div>
 
 ## 核心功能
@@ -112,15 +112,17 @@ Reranker 需要已缓存的模型才能运行：
 > [!NOTE]
 > **首次运行需要等待：**安装命令会下载 Python 依赖；模型命令会从 Hugging Face 下载 `BAAI/bge-small-zh-v1.5` 和 `BAAI/bge-reranker-base`，并占用额外磁盘空间。首次同步 PDF 索引、生成向量或加载模型时，响应可能比后续查询慢。若模型下载失败，请先查看 PowerShell 中的报错，检查是否能访问 Hugging Face，以及网络代理和模型缓存目录的读写权限；修复后重新运行模型下载命令。磁盘占用取决于实际下载的文件，本项目未提供固定数值。
 
-浏览器打开 <http://127.0.0.1:8000/>。仓库已附带 `BYD_2025.pdf`、`CATL_2025.pdf` 和 `NIST.AI.100-1.pdf.pdf`，无需先上传文件即可提问；也可以上传自己的可提取文字的 PDF。命令行入口为 `.\.venv\Scripts\python.exe main.py`。
+浏览器打开 <http://127.0.0.1:8000/>。仓库自带 `NIST_AI_RMF_1.0.pdf`（[NIST 原始出版页](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10)），无需上传文件即可体验；也可以上传自己的可提取文字的 PDF。命令行入口为 `.\.venv\Scripts\python.exe main.py`。
+
+如需体验年报对比，请自行从官方披露渠道获取 [比亚迪 2025 年年度报告](https://disc.static.szse.cn/download/disc/disk03/finalpage/2026-03-28/f5cdbdbf-b138-4e83-8c6d-5a7eecb9e670.PDF) 和 [宁德时代 2025 年年度报告](https://disc.static.szse.cn/disc/disk03/finalpage/2026-03-10/f019f96b-b960-410b-b88f-08838a36d81b.PDF)，在网页上传，或分别保存为 `data/documents/BYD_2025.pdf`、`data/documents/CATL_2025.pdf`。文档目录变化后会同步索引。两份年报不随仓库分发。
 
 ### 示例问题
 
 可以直接复制到网页中试用：
 
-- 根据 `NIST.AI.100-1.pdf.pdf`，GOVERN 为什么是跨领域功能？请列出依据所在的 PDF 页码和 Chunk ID。
-- 比较 `BYD_2025.pdf` 与 `CATL_2025.pdf` 中披露的 2025 年营业收入，并分别给出原文位置。
-- 在 `CATL_2025.pdf` 中查找营业收入同比变化的依据，返回相关页码和 Chunk ID。
+- 根据 `NIST_AI_RMF_1.0.pdf`，GOVERN 为什么是跨领域功能？请列出依据所在的 PDF 页码和 Chunk ID。
+- 添加两份年报后：比较 `BYD_2025.pdf` 与 `CATL_2025.pdf` 中披露的 2025 年营业收入，并分别给出原文位置。
+- 添加宁德时代年报后：在 `CATL_2025.pdf` 中查找营业收入同比变化的依据，返回相关页码和 Chunk ID。
 
 ## 项目目录
 
@@ -133,7 +135,7 @@ evidence_scope/
 ├── tools/evidence_search.py  # 证据检索工具
 ├── retrieval/                # 分块、索引、BM25、Dense、RRF、重排
 ├── static/                   # 网页 HTML、CSS、JavaScript
-├── data/documents/           # 本地 PDF，当前仓库包含示例文档
+├── data/documents/           # 本地 PDF；仓库仅附带 NIST AI RMF 示例
 ├── data/indexes/             # 运行时生成的索引，内容不提交
 ├── requirements.txt          # Python 依赖
 └── .env.example              # API Key 配置示例
