@@ -19,6 +19,12 @@
 > [!IMPORTANT]
 > PDF 和索引保存在运行项目的电脑上；问题与检索返回的原文会发送给 DeepSeek API。回答中的引用由模型生成，重要结论请回到原 PDF 核对。
 
+<div align="center">
+  <img src="static/evidence-scope-demo.png" alt="EvidenceScope 实际网页：提问、PDF 管理和带来源信息的研究结果" width="100%">
+  <br>
+  <sub>实际运行界面：提问、管理 PDF，并查看带来源信息的回答。截图仅作功能演示，结论仍需核对原文。</sub>
+</div>
+
 ## 核心功能
 
 | 能力 | 实际行为 |
@@ -74,19 +80,27 @@ flowchart LR
 
 ## 快速开始
 
-以下命令适用于 Windows PowerShell，建议使用 Python 3.12。安装依赖和下载模型需要网络连接。
+以下示例适用于 Windows PowerShell。先安装 Python 3.12，并确认下面的命令能找到它；安装依赖和下载模型需要网络连接。
 
-**1. 安装依赖并配置密钥**
+**1. 创建环境并安装依赖**
 
 ```powershell
-python -m venv .venv
+py -3.12 --version
+py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+如果系统没有 `py` 命令，可用已安装的 Python 3.12 解释器运行 `-m venv .venv`。若已有可用的 Python 3.12 虚拟环境，可跳过创建步骤，并用该环境的 `python` 安装依赖和执行后续命令。
+
+**2. 配置 DeepSeek API Key**
+
+```powershell
 Copy-Item .env.example .env
 ```
 
 在 `.env` 中填入自己的 `DEEPSEEK_API_KEY`。该文件已由 `.gitignore` 排除，请勿提交。
 
-**2. 下载模型并启动**
+**3. 下载模型并启动**
 
 Reranker 需要已缓存的模型才能运行：
 
