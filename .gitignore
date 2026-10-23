@@ -1,0 +1,25 @@
+# 密钥留在本机；PDF 可提交，自动生成的索引不提交
+.env
+.env.*
+!.env.example
+data/indexes/*
+!data/indexes/.gitkeep
+
+# Python 虚拟环境与缓存
+.venv/
+.venv_new/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 开发工具与构建产物
+.idea/
+.vscode/
+build/
+dist/
+*.log
+.DS_Store
+Thumbs.db
