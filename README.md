@@ -6,11 +6,13 @@
 
 ### 让本地 PDF 研究有据可查
 
+[![Unit tests](https://github.com/Qianying-Chuugu/evidence_scope/actions/workflows/tests.yml/badge.svg)](https://github.com/Qianying-Chuugu/evidence_scope/actions/workflows/tests.yml)
+
 面向本地 PDF 的 AI Agent：由模型调用检索工具，找到相关原文，并在回答中给出可回查的来源。
 
 **上传 PDF → 提出问题 → 检索证据 → 核对原文**
 
-[核心功能](#核心功能) · [技术亮点](#技术亮点) · [系统架构](#系统架构) · [快速开始](#快速开始) · [当前限制](#当前限制与后续方向)
+[核心功能](#核心功能) · [快速开始](#快速开始) · [系统架构与技术亮点](#系统架构与技术亮点) · [检索评估](#检索评估) · [当前限制](#当前限制数据隐私与后续方向)
 
 🟢 `Python` &nbsp; 🔵 `FastAPI` &nbsp; 🟣 `DeepSeek API` &nbsp; 🟠 `BM25 + Dense` &nbsp; 🟢 `BGE Reranker`
 
@@ -19,11 +21,24 @@
 > [!IMPORTANT]
 > PDF 和索引保存在运行项目的电脑上；问题与检索返回的原文会发送给 DeepSeek API。回答中的引用由模型生成，重要结论请回到原 PDF 核对。
 
+## 演示
+
+<div align="center">
+  <img src="static/evidence-scope-demo.gif" alt="实际操作演示：输入问题、调用检索并查看带来源的回答" width="100%">
+  <br>
+  <sub>真实录屏节选，约 18 秒、2 倍速；年报由使用者本地添加。录屏拍摄于 NIST 示例文件重命名前。</sub>
+</div>
+
+<details>
+<summary>查看完整页面截图</summary>
+
 <div align="center">
   <img src="static/evidence-scope-demo.png" alt="EvidenceScope 实际网页：提问、PDF 管理和带来源信息的研究结果" width="100%">
   <br>
   <sub>实际运行界面：提问、管理 PDF，并查看带来源信息的回答。截图中的企业年报由使用者本地添加；结论仍需核对原文。</sub>
 </div>
+
+</details>
 
 ## 核心功能
 
@@ -34,49 +49,6 @@
 | **🤖 Agent 工具调用** | 模型选择 `search_evidence` 的查询和文档范围，读取结果后可继续检索，最多执行 8 轮 |
 | **🔎 混合检索** | BM25 与 Dense Retrieval 分别召回，经加权 RRF 融合、BGE Reranker 重排 |
 | **📍 来源追溯** | 检索工具提供原文、文件名、PDF 页码和完整 Chunk ID，供回答引用及人工回查 |
-
-## 技术亮点
-
-### 01 · 🤖 Agent 管理检索过程
-
-`AgentHarness` 发起模型调用、执行模型请求的工具、把结果加入对话，并控制迭代次数。文档目录帮助模型选择文件；检索到的原文才是回答事实问题的依据。
-
-### 02 · 🔎 两条召回路径互补
-
-BM25 适合匹配名称、数字和术语等明确词汇；基于 BGE Embedding 的 Dense Retrieval 用语义相似度寻找不同表述的片段。两路结果共同提供候选，减少对单一匹配方式的依赖。
-
-### 03 · 🎯 融合与重排分工明确
-
-BM25 与 Dense 的原始分数不直接相加；加权 RRF 根据各自排名合并候选，随后 BGE Reranker 同时读取问题与候选原文，重新排序相关片段。当前权重为 BM25 `1.5`、Dense `1.0`，不代表对所有文档都最优。
-
-### 04 · 📍 文档变化可同步，证据可定位
-
-`IndexManager` 用清单记录文档状态和内容哈希，只重新分块需要更新的文件，并使变化文档的向量失效。文档目录变化也会清除检索缓存。来源、页码与 Chunk ID 有助于定位原文，但回答与证据是否一致仍需人工核对。
-
-## 系统架构
-
-```mermaid
-flowchart LR
-    WEB[Web 前端] --> API[FastAPI]
-    API -->|提问| AGENT[AgentHarness]
-    AGENT <-->|模型决策与工具调用| LLM[DeepSeek API]
-    AGENT -->|执行工具| SEARCH[search_evidence]
-    SEARCH --> BM25[BM25]
-    SEARCH --> DENSE[Dense Retrieval]
-    BM25 --> RRF[加权 RRF]
-    DENSE --> RRF
-    RRF --> RERANK[BGE Reranker]
-    RERANK -->|证据回填| AGENT
-    AGENT -->|最终回答| API
-    API --> WEB
-
-    API -->|上传、列出、删除 PDF| DOC[DocumentManager]
-    DOC --> INDEX[IndexManager]
-    SEARCH -->|同步与读取索引| INDEX
-    INDEX <--> DATA[(本地 PDF、分块与向量)]
-```
-
-模型可在一次提问中多次调用 `search_evidence`。文档管理由 FastAPI 调用 `DocumentManager`；检索工具通过 `IndexManager` 同步和读取本地索引。
 
 ## 快速开始
 
@@ -124,7 +96,75 @@ Reranker 需要已缓存的模型才能运行：
 - 添加两份年报后：比较 `BYD_2025.pdf` 与 `CATL_2025.pdf` 中披露的 2025 年营业收入，并分别给出原文位置。
 - 添加宁德时代年报后：在 `CATL_2025.pdf` 中查找营业收入同比变化的依据，返回相关页码和 Chunk ID。
 
-## 项目目录
+## 系统架构与技术亮点
+
+### 系统架构
+
+```mermaid
+flowchart LR
+    WEB[Web 前端] --> API[FastAPI]
+    API -->|提问| AGENT[AgentHarness]
+    AGENT <-->|模型决策与工具调用| LLM[DeepSeek API]
+    AGENT -->|执行工具| SEARCH[search_evidence]
+    SEARCH --> BM25[BM25]
+    SEARCH --> DENSE[Dense Retrieval]
+    BM25 --> RRF[加权 RRF]
+    DENSE --> RRF
+    RRF --> RERANK[BGE Reranker]
+    RERANK -->|证据回填| AGENT
+    AGENT -->|最终回答| API
+    API --> WEB
+
+    API -->|上传、列出、删除 PDF| DOC[DocumentManager]
+    DOC --> INDEX[IndexManager]
+    SEARCH -->|同步与读取索引| INDEX
+    INDEX <--> DATA[(本地 PDF、分块与向量)]
+```
+
+模型可在一次提问中多次调用 `search_evidence`。文档管理由 FastAPI 调用 `DocumentManager`；检索工具通过 `IndexManager` 同步和读取本地索引。
+
+### 技术亮点
+
+#### 01 · 🤖 Agent 管理检索过程
+
+`AgentHarness` 发起模型调用、执行模型请求的工具、把结果加入对话，并控制迭代次数。文档目录帮助模型选择文件；检索到的原文才是回答事实问题的依据。
+
+#### 02 · 🔎 两条召回路径互补
+
+BM25 适合匹配名称、数字和术语等明确词汇；基于 BGE Embedding 的 Dense Retrieval 用语义相似度寻找不同表述的片段。两路结果共同提供候选，减少对单一匹配方式的依赖。
+
+#### 03 · 🎯 融合与重排分工明确
+
+BM25 与 Dense 的原始分数不直接相加；加权 RRF 根据各自排名合并候选，随后 BGE Reranker 同时读取问题与候选原文，重新排序相关片段。当前权重为 BM25 `1.5`、Dense `1.0`，不代表对所有文档都最优。
+
+#### 04 · 📍 文档变化可同步，证据可定位
+
+`IndexManager` 用清单记录文档状态和内容哈希，只重新分块需要更新的文件，并使变化文档的向量失效。文档目录变化也会清除检索缓存。来源、页码与 Chunk ID 有助于定位原文，但回答与证据是否一致仍需人工核对。
+
+## 检索评估
+
+自动化测试不调用 DeepSeek API，覆盖 RRF 排名、Agent 工具回填与异常、PDF 上传与删除，以及文档变更后的索引和检索缓存失效。GitHub Actions 在推送和 PR 时使用 `requirements-test.txt` 运行同一组测试，不下载检索模型：
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+检索评估使用仓库自带的 NIST AI RMF PDF 和 [20 条人工编写的问题及证据标注](evaluation/nist_questions.json)。每题标注 PDF 页码与原文短句，脚本在对应页面定位包含该短句的 Chunk；仅在这份文档的 367 个 Chunk 中检索，不依赖 DeepSeek API。四组方法统一取前 5 条，混合检索使用 BM25 权重 `1.5`、Dense 权重 `1.0`，Reranker 从前 20 个融合候选中重排。
+
+| 方法 | Recall@5 | MRR@5 | nDCG@5 |
+| --- | ---: | ---: | ---: |
+| BM25 | 0.8750 | 0.7767 | 0.7855 |
+| Dense | 0.6250 | 0.5100 | 0.5160 |
+| BM25 + Dense + RRF | 0.8750 | 0.7458 | 0.7627 |
+| BM25 + Dense + RRF + Reranker | 0.9750 | 0.9100 | 0.9162 |
+
+在这组偏向明确术语的英文问题中，BM25 强于单独的 Dense；RRF 未提高 Recall@5，且 MRR@5 略低于 BM25。Reranker 改善了本次候选排序，例如 `nist-11` 的目标证据未进入 BM25 或融合前 5，却被重排到前 5。这是单份文档、20 个问题的探索性结果，不能推断在其他语料上有相同效果。完整逐题排名见 [评估结果](evaluation/results.json)，运行方法与指标定义见 [评估说明](evaluation/README.md)。
+
+引用核查分两步：`audit_citations.py` 核对文件名、PDF 页码和 Chunk ID，并确认 Chunk 文本仍出现在原 PDF 对应页面；“原文是否支持该结论”由人工逐项标注。对一张实际回答截图中的 3 项结论做了[示例审阅](evaluation/citation_review_example.json)：6 处引用均对应原 PDF 页面，3 项结论均获得所列证据支持。该样本依赖使用者本地另行获取的两份年报，且不能代表系统整体引用正确率。
+
+## 项目目录与技术栈
+
+### 项目目录
 
 ```text
 evidence_scope/
@@ -146,7 +186,7 @@ evidence_scope/
 └── .env.example              # API Key 配置示例
 ```
 
-## 技术栈
+### 技术栈
 
 | 技术 | 用途 |
 | --- | --- |
@@ -158,29 +198,9 @@ evidence_scope/
 | 加权 RRF、BGE Reranker | 候选融合与重排 |
 | JSON、NumPy | 文档清单、分块和向量存储 |
 
-## 验证与检索评估
+## 当前限制、数据隐私与后续方向
 
-自动化测试不调用 DeepSeek API，覆盖 RRF 排名、Agent 工具回填与异常、PDF 上传与删除，以及文档变更后的索引和检索缓存失效。GitHub Actions 在推送和 PR 时使用 `requirements-test.txt` 运行同一组测试，不下载检索模型：
-
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-检索评估使用仓库自带的 NIST AI RMF PDF 和 [20 条人工编写的问题及证据标注](evaluation/nist_questions.json)。每题标注 PDF 页码与原文短句，脚本在对应页面定位包含该短句的 Chunk；仅在这份文档的 367 个 Chunk 中检索，不依赖 DeepSeek API。四组方法统一取前 5 条，混合检索使用 BM25 权重 `1.5`、Dense 权重 `1.0`，Reranker 从前 20 个融合候选中重排。
-
-| 方法 | Recall@5 | MRR@5 | nDCG@5 |
-| --- | ---: | ---: | ---: |
-| BM25 | 0.8750 | 0.7767 | 0.7855 |
-| Dense | 0.6250 | 0.5100 | 0.5160 |
-| BM25 + Dense + RRF | 0.8750 | 0.7458 | 0.7627 |
-| BM25 + Dense + RRF + Reranker | 0.9750 | 0.9100 | 0.9162 |
-
-在这组偏向明确术语的英文问题中，BM25 强于单独的 Dense；RRF 未提高 Recall@5，且 MRR@5 略低于 BM25。Reranker 改善了本次候选排序，例如 `nist-11` 的目标证据未进入 BM25 或融合前 5，却被重排到前 5。这是单份文档、20 个问题的探索性结果，不能推断在其他语料上有相同效果。完整逐题排名见 [评估结果](evaluation/results.json)，运行方法与指标定义见 [评估说明](evaluation/README.md)。
-
-引用核查分两步：`audit_citations.py` 核对文件名、PDF 页码和 Chunk ID，并确认 Chunk 文本仍出现在原 PDF 对应页面；“原文是否支持该结论”由人工逐项标注。对一张实际回答截图中的 3 项结论做了[示例审阅](evaluation/citation_review_example.json)：6 处引用均对应原 PDF 页面，3 项结论均获得所列证据支持。该样本依赖使用者本地另行获取的两份年报，且不能代表系统整体引用正确率。
-
-## 当前限制与后续方向
-
+- PDF 和索引保存在本机；问题与检索出的原文会发送给 DeepSeek API。上传敏感资料前请先确认是否适合发送相关内容。
 - 项目按本地单机使用设计，启动示例仅监听 `127.0.0.1`；没有账号、用户隔离或公网部署方案。调用 DeepSeek API 需要使用者自己的密钥，并可能产生费用。
 - PDF 需能提取足够文字；目前没有 OCR。复杂表格的提取顺序可能影响检索，过短的页面不会进入索引。
 - 文件名、页码和 Chunk ID 来自检索结果，但最终引用由模型生成；位置核查不能替代语义支持性判断，重要结论应人工复核。
