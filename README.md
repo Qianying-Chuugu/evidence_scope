@@ -51,7 +51,7 @@ BM25 与 Dense 的原始分数不直接相加；加权 RRF 根据各自排名合
 
 ### 04 · 📍 文档变化可同步，证据可定位
 
-`IndexManager` 用清单记录文档状态，只重新分块需要更新的文件，并使变化文档的向量失效。文档目录变化也会清除检索缓存。来源、页码与 Chunk ID 有助于定位原文，但回答与证据是否一致仍需人工核对。
+`IndexManager` 用清单记录文档状态和内容哈希，只重新分块需要更新的文件，并使变化文档的向量失效。文档目录变化也会清除检索缓存。来源、页码与 Chunk ID 有助于定位原文，但回答与证据是否一致仍需人工核对。
 
 ## 系统架构
 
@@ -134,10 +134,14 @@ evidence_scope/
 ├── agent/                    # AgentHarness 与工具注册
 ├── tools/evidence_search.py  # 证据检索工具
 ├── retrieval/                # 分块、索引、BM25、Dense、RRF、重排
+├── tests/                    # 无需模型 API 的自动化测试
+├── evaluation/               # 标注问题、检索对比与引用核查工具
+├── .github/workflows/tests.yml # 推送和 PR 时运行单元测试
 ├── static/                   # 网页 HTML、CSS、JavaScript
 ├── data/documents/           # 本地 PDF；仓库仅附带 NIST AI RMF 示例
 ├── data/indexes/             # 运行时生成的索引，内容不提交
 ├── requirements.txt          # Python 依赖
+├── requirements-test.txt     # CI 使用的轻量测试依赖
 └── .env.example              # API Key 配置示例
 ```
 
@@ -153,9 +157,30 @@ evidence_scope/
 | 加权 RRF、BGE Reranker | 候选融合与重排 |
 | JSON、NumPy | 文档清单、分块和向量存储 |
 
+## 验证与检索评估
+
+自动化测试不调用 DeepSeek API，覆盖 RRF 排名、Agent 工具回填与异常、PDF 上传与删除，以及文档变更后的索引和检索缓存失效。GitHub Actions 在推送和 PR 时使用 `requirements-test.txt` 运行同一组测试，不下载检索模型：
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+检索评估使用仓库自带的 NIST AI RMF PDF 和 [20 条人工编写的问题及证据标注](evaluation/nist_questions.json)。每题标注 PDF 页码与原文短句，脚本在对应页面定位包含该短句的 Chunk；仅在这份文档的 367 个 Chunk 中检索，不依赖 DeepSeek API。四组方法统一取前 5 条，混合检索使用 BM25 权重 `1.5`、Dense 权重 `1.0`，Reranker 从前 20 个融合候选中重排。
+
+| 方法 | Recall@5 | MRR@5 | nDCG@5 |
+| --- | ---: | ---: | ---: |
+| BM25 | 0.8750 | 0.7767 | 0.7855 |
+| Dense | 0.6250 | 0.5100 | 0.5160 |
+| BM25 + Dense + RRF | 0.8750 | 0.7458 | 0.7627 |
+| BM25 + Dense + RRF + Reranker | 0.9750 | 0.9100 | 0.9162 |
+
+在这组偏向明确术语的英文问题中，BM25 强于单独的 Dense；RRF 未提高 Recall@5，且 MRR@5 略低于 BM25。Reranker 改善了本次候选排序，例如 `nist-11` 的目标证据未进入 BM25 或融合前 5，却被重排到前 5。这是单份文档、20 个问题的探索性结果，不能推断在其他语料上有相同效果。完整逐题排名见 [评估结果](evaluation/results.json)，运行方法与指标定义见 [评估说明](evaluation/README.md)。
+
+引用核查分两步：`audit_citations.py` 核对文件名、PDF 页码和 Chunk ID，并确认 Chunk 文本仍出现在原 PDF 对应页面；“原文是否支持该结论”由人工逐项标注。对一张实际回答截图中的 3 项结论做了[示例审阅](evaluation/citation_review_example.json)：6 处引用均对应原 PDF 页面，3 项结论均获得所列证据支持。该样本依赖使用者本地另行获取的两份年报，且不能代表系统整体引用正确率。
+
 ## 当前限制与后续方向
 
 - 项目按本地单机使用设计，启动示例仅监听 `127.0.0.1`；没有账号、用户隔离或公网部署方案。调用 DeepSeek API 需要使用者自己的密钥，并可能产生费用。
 - PDF 需能提取足够文字；目前没有 OCR。复杂表格的提取顺序可能影响检索，过短的页面不会进入索引。
-- 文件名、页码和 Chunk ID 来自检索结果，但最终引用由模型生成；项目尚未程序化验证每项结论是否受到引用原文支持，重要结论应人工复核。
-- 后续可增加回答与证据的一致性检查，并用不同类型文档评估检索表现。
+- 文件名、页码和 Chunk ID 来自检索结果，但最终引用由模型生成；位置核查不能替代语义支持性判断，重要结论应人工复核。
+- 后续可扩展跨文档评估集，并收集真实回答进行人工引用支持性评审。

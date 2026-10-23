@@ -1,0 +1,6 @@
+# Lightweight dependencies for tests; no model download or DeepSeek API key.
+openai==3.16.2
+PyMuPDF==1.28.2
+numpy==2.5.3
+jieba==0.42.1
+rank-bm25==0.2.2

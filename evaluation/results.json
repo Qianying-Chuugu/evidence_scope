@@ -1,0 +1,1206 @@
+{
+  "run_at_utc": "2026-10-23T02:24:43.169820+00:00",
+  "dataset": "evaluation/nist_questions.json",
+  "source": "NIST_AI_RMF_1.0.pdf",
+  "source_sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1",
+  "python": "3.12.10",
+  "packages": {
+    "sentence-transformers": "6.1.0",
+    "torch": "2.14.1",
+    "numpy": "2.5.3",
+    "rank-bm25": "0.2.2",
+    "jieba": "0.42.1"
+  },
+  "questions": 20,
+  "k": 5,
+  "candidate_k": 20,
+  "summary": {
+    "bm25": {
+      "recall_at_5": 0.875,
+      "mrr_at_5": 0.7767,
+      "ndcg_at_5": 0.7855
+    },
+    "dense": {
+      "recall_at_5": 0.625,
+      "mrr_at_5": 0.51,
+      "ndcg_at_5": 0.516
+    },
+    "hybrid": {
+      "recall_at_5": 0.875,
+      "mrr_at_5": 0.7458,
+      "ndcg_at_5": 0.7627
+    },
+    "hybrid_reranker": {
+      "recall_at_5": 0.975,
+      "mrr_at_5": 0.91,
+      "ndcg_at_5": 0.9162
+    }
+  },
+  "queries": [
+    {
+      "id": "nist-01",
+      "query": "Why is GOVERN a cross-cutting function in the AI RMF?",
+      "pdf_page": 27,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0200"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0200",
+            "doc_3d466833_chunk_0020",
+            "doc_3d466833_chunk_0190",
+            "doc_3d466833_chunk_0195",
+            "doc_3d466833_chunk_0019"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0020",
+            "doc_3d466833_chunk_0200",
+            "doc_3d466833_chunk_0190",
+            "doc_3d466833_chunk_0204",
+            "doc_3d466833_chunk_0195"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0200",
+            "doc_3d466833_chunk_0020",
+            "doc_3d466833_chunk_0190",
+            "doc_3d466833_chunk_0195",
+            "doc_3d466833_chunk_0203"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0200",
+            "doc_3d466833_chunk_0190",
+            "doc_3d466833_chunk_0020",
+            "doc_3d466833_chunk_0353",
+            "doc_3d466833_chunk_0189"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-02",
+      "query": "What are the four core functions of the NIST AI RMF?",
+      "pdf_page": 8,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0039",
+        "doc_3d466833_chunk_0040"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.8772153153380493,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0039",
+            "doc_3d466833_chunk_0188",
+            "doc_3d466833_chunk_0200",
+            "doc_3d466833_chunk_0040",
+            "doc_3d466833_chunk_0182"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0188",
+            "doc_3d466833_chunk_0011",
+            "doc_3d466833_chunk_0182",
+            "doc_3d466833_chunk_0360",
+            "doc_3d466833_chunk_0192"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 0.5,
+          "mrr_at_5": 0.25,
+          "ndcg_at_5": 0.2640681225725909,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0188",
+            "doc_3d466833_chunk_0182",
+            "doc_3d466833_chunk_0200",
+            "doc_3d466833_chunk_0039",
+            "doc_3d466833_chunk_0295"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 0.5,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.38685280723454163,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0188",
+            "doc_3d466833_chunk_0039",
+            "doc_3d466833_chunk_0336",
+            "doc_3d466833_chunk_0097",
+            "doc_3d466833_chunk_0190"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-03",
+      "query": "Why does the MAP function provide a basis for MEASURE and MANAGE?",
+      "pdf_page": 30,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0226"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0226",
+            "doc_3d466833_chunk_0014",
+            "doc_3d466833_chunk_0268",
+            "doc_3d466833_chunk_0260",
+            "doc_3d466833_chunk_0340"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0226",
+            "doc_3d466833_chunk_0266",
+            "doc_3d466833_chunk_0232",
+            "doc_3d466833_chunk_0040",
+            "doc_3d466833_chunk_0189"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0226",
+            "doc_3d466833_chunk_0253",
+            "doc_3d466833_chunk_0040",
+            "doc_3d466833_chunk_0286",
+            "doc_3d466833_chunk_0340"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0226",
+            "doc_3d466833_chunk_0252",
+            "doc_3d466833_chunk_0286",
+            "doc_3d466833_chunk_0340",
+            "doc_3d466833_chunk_0040"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-04",
+      "query": "What methods does the MEASURE function use to analyze AI risk?",
+      "pdf_page": 33,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0252"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0268",
+            "doc_3d466833_chunk_0252",
+            "doc_3d466833_chunk_0271",
+            "doc_3d466833_chunk_0260",
+            "doc_3d466833_chunk_0283"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0259",
+            "doc_3d466833_chunk_0261",
+            "doc_3d466833_chunk_0257",
+            "doc_3d466833_chunk_0253",
+            "doc_3d466833_chunk_0056"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0252",
+            "doc_3d466833_chunk_0261",
+            "doc_3d466833_chunk_0283",
+            "doc_3d466833_chunk_0259",
+            "doc_3d466833_chunk_0253"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0252",
+            "doc_3d466833_chunk_0261",
+            "doc_3d466833_chunk_0260",
+            "doc_3d466833_chunk_0253",
+            "doc_3d466833_chunk_0231"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-05",
+      "query": "How does the MANAGE function allocate resources to risks?",
+      "pdf_page": 36,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0280"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.2,
+          "ndcg_at_5": 0.38685280723454163,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0283",
+            "doc_3d466833_chunk_0282",
+            "doc_3d466833_chunk_0073",
+            "doc_3d466833_chunk_0286",
+            "doc_3d466833_chunk_0280"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0280",
+            "doc_3d466833_chunk_0285",
+            "doc_3d466833_chunk_0288",
+            "doc_3d466833_chunk_0283",
+            "doc_3d466833_chunk_0226"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0283",
+            "doc_3d466833_chunk_0280",
+            "doc_3d466833_chunk_0282",
+            "doc_3d466833_chunk_0073",
+            "doc_3d466833_chunk_0285"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0280",
+            "doc_3d466833_chunk_0282",
+            "doc_3d466833_chunk_0283",
+            "doc_3d466833_chunk_0258",
+            "doc_3d466833_chunk_0073"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-06",
+      "query": "How does the framework define risk tolerance?",
+      "pdf_page": 12,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0067"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0067",
+            "doc_3d466833_chunk_0072",
+            "doc_3d466833_chunk_0269",
+            "doc_3d466833_chunk_0354",
+            "doc_3d466833_chunk_0088"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0044",
+            "doc_3d466833_chunk_0070",
+            "doc_3d466833_chunk_0339",
+            "doc_3d466833_chunk_0183",
+            "doc_3d466833_chunk_0231"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.3333333333333333,
+          "ndcg_at_5": 0.5,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0070",
+            "doc_3d466833_chunk_0340",
+            "doc_3d466833_chunk_0067",
+            "doc_3d466833_chunk_0072",
+            "doc_3d466833_chunk_0269"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0067",
+            "doc_3d466833_chunk_0295",
+            "doc_3d466833_chunk_0201",
+            "doc_3d466833_chunk_0072",
+            "doc_3d466833_chunk_0206"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-07",
+      "query": "Why can trying to eliminate all negative AI risk be counterproductive?",
+      "pdf_page": 12,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0073"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0073",
+            "doc_3d466833_chunk_0072",
+            "doc_3d466833_chunk_0074",
+            "doc_3d466833_chunk_0045",
+            "doc_3d466833_chunk_0127"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0060",
+            "doc_3d466833_chunk_0077",
+            "doc_3d466833_chunk_0054",
+            "doc_3d466833_chunk_0063",
+            "doc_3d466833_chunk_0351"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0073",
+            "doc_3d466833_chunk_0060",
+            "doc_3d466833_chunk_0051",
+            "doc_3d466833_chunk_0072",
+            "doc_3d466833_chunk_0074"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0073",
+            "doc_3d466833_chunk_0072",
+            "doc_3d466833_chunk_0125",
+            "doc_3d466833_chunk_0045",
+            "doc_3d466833_chunk_0060"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-08",
+      "query": "How can third-party data and software complicate risk measurement?",
+      "pdf_page": 10,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0055"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0055",
+            "doc_3d466833_chunk_0221",
+            "doc_3d466833_chunk_0248",
+            "doc_3d466833_chunk_0222",
+            "doc_3d466833_chunk_0054"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0055",
+            "doc_3d466833_chunk_0221",
+            "doc_3d466833_chunk_0222",
+            "doc_3d466833_chunk_0057",
+            "doc_3d466833_chunk_0332"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0055",
+            "doc_3d466833_chunk_0221",
+            "doc_3d466833_chunk_0222",
+            "doc_3d466833_chunk_0057",
+            "doc_3d466833_chunk_0305"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0055",
+            "doc_3d466833_chunk_0057",
+            "doc_3d466833_chunk_0054",
+            "doc_3d466833_chunk_0056",
+            "doc_3d466833_chunk_0065"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-09",
+      "query": "Why does NIST describe AI systems as socio-technical?",
+      "pdf_page": 6,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0025",
+        "doc_3d466833_chunk_0026"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 0.5,
+          "mrr_at_5": 0.3333333333333333,
+          "ndcg_at_5": 0.3065735963827292,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0356",
+            "doc_3d466833_chunk_0088",
+            "doc_3d466833_chunk_0026",
+            "doc_3d466833_chunk_0319",
+            "doc_3d466833_chunk_0127"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.9197207891481876,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0026",
+            "doc_3d466833_chunk_0342",
+            "doc_3d466833_chunk_0025",
+            "doc_3d466833_chunk_0267",
+            "doc_3d466833_chunk_0027"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0026",
+            "doc_3d466833_chunk_0025",
+            "doc_3d466833_chunk_0356",
+            "doc_3d466833_chunk_0088",
+            "doc_3d466833_chunk_0319"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0025",
+            "doc_3d466833_chunk_0026",
+            "doc_3d466833_chunk_0127",
+            "doc_3d466833_chunk_0003",
+            "doc_3d466833_chunk_0268"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-10",
+      "query": "Which characteristics are included in trustworthy AI?",
+      "pdf_page": 17,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0125",
+        "doc_3d466833_chunk_0126"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0126",
+            "doc_3d466833_chunk_0125",
+            "doc_3d466833_chunk_0128",
+            "doc_3d466833_chunk_0205",
+            "doc_3d466833_chunk_0264"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.5,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.6131471927654584,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0126",
+            "doc_3d466833_chunk_0127",
+            "doc_3d466833_chunk_0130",
+            "doc_3d466833_chunk_0128",
+            "doc_3d466833_chunk_0138"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.8772153153380493,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0126",
+            "doc_3d466833_chunk_0128",
+            "doc_3d466833_chunk_0127",
+            "doc_3d466833_chunk_0125",
+            "doc_3d466833_chunk_0205"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.9197207891481876,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0126",
+            "doc_3d466833_chunk_0128",
+            "doc_3d466833_chunk_0125",
+            "doc_3d466833_chunk_0127",
+            "doc_3d466833_chunk_0130"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-11",
+      "query": "Why must AI trustworthiness characteristics be balanced?",
+      "pdf_page": 18,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0137"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0130",
+            "doc_3d466833_chunk_0129",
+            "doc_3d466833_chunk_0128",
+            "doc_3d466833_chunk_0136",
+            "doc_3d466833_chunk_0019"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.2,
+          "ndcg_at_5": 0.38685280723454163,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0130",
+            "doc_3d466833_chunk_0126",
+            "doc_3d466833_chunk_0136",
+            "doc_3d466833_chunk_0138",
+            "doc_3d466833_chunk_0137"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0130",
+            "doc_3d466833_chunk_0136",
+            "doc_3d466833_chunk_0128",
+            "doc_3d466833_chunk_0138",
+            "doc_3d466833_chunk_0125"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.2,
+          "ndcg_at_5": 0.38685280723454163,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0126",
+            "doc_3d466833_chunk_0138",
+            "doc_3d466833_chunk_0130",
+            "doc_3d466833_chunk_0125",
+            "doc_3d466833_chunk_0137"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-12",
+      "query": "How is robustness or generalizability defined?",
+      "pdf_page": 19,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0144"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0144",
+            "doc_3d466833_chunk_0142",
+            "doc_3d466833_chunk_0267",
+            "doc_3d466833_chunk_0266",
+            "doc_3d466833_chunk_0012"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0145",
+            "doc_3d466833_chunk_0144",
+            "doc_3d466833_chunk_0146",
+            "doc_3d466833_chunk_0167",
+            "doc_3d466833_chunk_0209"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0144",
+            "doc_3d466833_chunk_0146",
+            "doc_3d466833_chunk_0267",
+            "doc_3d466833_chunk_0269",
+            "doc_3d466833_chunk_0209"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0144",
+            "doc_3d466833_chunk_0155",
+            "doc_3d466833_chunk_0142",
+            "doc_3d466833_chunk_0266",
+            "doc_3d466833_chunk_0267"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-13",
+      "query": "What practical approaches can support AI safety?",
+      "pdf_page": 20,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0150"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0150",
+            "doc_3d466833_chunk_0151",
+            "doc_3d466833_chunk_0366",
+            "doc_3d466833_chunk_0149",
+            "doc_3d466833_chunk_0036"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0147",
+            "doc_3d466833_chunk_0151",
+            "doc_3d466833_chunk_0149",
+            "doc_3d466833_chunk_0029",
+            "doc_3d466833_chunk_0148"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.3333333333333333,
+          "ndcg_at_5": 0.5,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0151",
+            "doc_3d466833_chunk_0149",
+            "doc_3d466833_chunk_0150",
+            "doc_3d466833_chunk_0366",
+            "doc_3d466833_chunk_0036"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0150",
+            "doc_3d466833_chunk_0151",
+            "doc_3d466833_chunk_0149",
+            "doc_3d466833_chunk_0059",
+            "doc_3d466833_chunk_0079"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-14",
+      "query": "What stages and information does AI transparency cover?",
+      "pdf_page": 20,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0157"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0301",
+            "doc_3d466833_chunk_0156",
+            "doc_3d466833_chunk_0162",
+            "doc_3d466833_chunk_0281",
+            "doc_3d466833_chunk_0172"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0157",
+            "doc_3d466833_chunk_0158",
+            "doc_3d466833_chunk_0359",
+            "doc_3d466833_chunk_0156",
+            "doc_3d466833_chunk_0267"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0156",
+            "doc_3d466833_chunk_0157",
+            "doc_3d466833_chunk_0162",
+            "doc_3d466833_chunk_0040",
+            "doc_3d466833_chunk_0340"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0156",
+            "doc_3d466833_chunk_0157",
+            "doc_3d466833_chunk_0163",
+            "doc_3d466833_chunk_0172",
+            "doc_3d466833_chunk_0162"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-15",
+      "query": "What does the framework say about copyright and training data?",
+      "pdf_page": 21,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0162",
+        "doc_3d466833_chunk_0163"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0162",
+            "doc_3d466833_chunk_0163",
+            "doc_3d466833_chunk_0084",
+            "doc_3d466833_chunk_0330",
+            "doc_3d466833_chunk_0199"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.8772153153380493,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0163",
+            "doc_3d466833_chunk_0158",
+            "doc_3d466833_chunk_0044",
+            "doc_3d466833_chunk_0162",
+            "doc_3d466833_chunk_0084"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0163",
+            "doc_3d466833_chunk_0162",
+            "doc_3d466833_chunk_0084",
+            "doc_3d466833_chunk_0158",
+            "doc_3d466833_chunk_0330"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0163",
+            "doc_3d466833_chunk_0162",
+            "doc_3d466833_chunk_0158",
+            "doc_3d466833_chunk_0157",
+            "doc_3d466833_chunk_0153"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-16",
+      "query": "How can risks to interpretability be addressed?",
+      "pdf_page": 22,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0168"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0168",
+            "doc_3d466833_chunk_0327",
+            "doc_3d466833_chunk_0298",
+            "doc_3d466833_chunk_0328",
+            "doc_3d466833_chunk_0164"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0221",
+            "doc_3d466833_chunk_0337",
+            "doc_3d466833_chunk_0169",
+            "doc_3d466833_chunk_0340",
+            "doc_3d466833_chunk_0165"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0169",
+            "doc_3d466833_chunk_0328",
+            "doc_3d466833_chunk_0165",
+            "doc_3d466833_chunk_0298",
+            "doc_3d466833_chunk_0073"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0168",
+            "doc_3d466833_chunk_0165",
+            "doc_3d466833_chunk_0131",
+            "doc_3d466833_chunk_0164",
+            "doc_3d466833_chunk_0132"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-17",
+      "query": "What issues does fairness in AI include?",
+      "pdf_page": 22,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0173",
+        "doc_3d466833_chunk_0174"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.8772153153380493,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0174",
+            "doc_3d466833_chunk_0329",
+            "doc_3d466833_chunk_0054",
+            "doc_3d466833_chunk_0173",
+            "doc_3d466833_chunk_0221"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 0.0,
+          "mrr_at_5": 0,
+          "ndcg_at_5": 0.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0140",
+            "doc_3d466833_chunk_0147",
+            "doc_3d466833_chunk_0267",
+            "doc_3d466833_chunk_0036",
+            "doc_3d466833_chunk_0031"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 0.8503449055347546,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0174",
+            "doc_3d466833_chunk_0054",
+            "doc_3d466833_chunk_0221",
+            "doc_3d466833_chunk_0329",
+            "doc_3d466833_chunk_0173"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0174",
+            "doc_3d466833_chunk_0173",
+            "doc_3d466833_chunk_0181",
+            "doc_3d466833_chunk_0180",
+            "doc_3d466833_chunk_0329"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-18",
+      "query": "Must the AI RMF functions be performed in a fixed order?",
+      "pdf_page": 26,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0195"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0195",
+            "doc_3d466833_chunk_0190",
+            "doc_3d466833_chunk_0067",
+            "doc_3d466833_chunk_0040",
+            "doc_3d466833_chunk_0200"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0038",
+            "doc_3d466833_chunk_0195",
+            "doc_3d466833_chunk_0295",
+            "doc_3d466833_chunk_0088",
+            "doc_3d466833_chunk_0340"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0195",
+            "doc_3d466833_chunk_0190",
+            "doc_3d466833_chunk_0340",
+            "doc_3d466833_chunk_0067",
+            "doc_3d466833_chunk_0040"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0195",
+            "doc_3d466833_chunk_0039",
+            "doc_3d466833_chunk_0190",
+            "doc_3d466833_chunk_0097",
+            "doc_3d466833_chunk_0295"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-19",
+      "query": "What does MAP 3.5 require for human oversight?",
+      "pdf_page": 32,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0246"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0246",
+            "doc_3d466833_chunk_0347",
+            "doc_3d466833_chunk_0348",
+            "doc_3d466833_chunk_0268",
+            "doc_3d466833_chunk_0214"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0246",
+            "doc_3d466833_chunk_0247",
+            "doc_3d466833_chunk_0248",
+            "doc_3d466833_chunk_0233",
+            "doc_3d466833_chunk_0240"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0246",
+            "doc_3d466833_chunk_0348",
+            "doc_3d466833_chunk_0129",
+            "doc_3d466833_chunk_0347",
+            "doc_3d466833_chunk_0268"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0246",
+            "doc_3d466833_chunk_0348",
+            "doc_3d466833_chunk_0347",
+            "doc_3d466833_chunk_0148",
+            "doc_3d466833_chunk_0009"
+          ]
+        }
+      }
+    },
+    {
+      "id": "nist-20",
+      "query": "What does GOVERN 5.1 require regarding external feedback?",
+      "pdf_page": 29,
+      "gold_chunk_ids": [
+        "doc_3d466833_chunk_0218"
+      ],
+      "variants": {
+        "bm25": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0219",
+            "doc_3d466833_chunk_0218",
+            "doc_3d466833_chunk_0249",
+            "doc_3d466833_chunk_0220",
+            "doc_3d466833_chunk_0210"
+          ]
+        },
+        "dense": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 0.5,
+          "ndcg_at_5": 0.6309297535714575,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0220",
+            "doc_3d466833_chunk_0218",
+            "doc_3d466833_chunk_0020",
+            "doc_3d466833_chunk_0280",
+            "doc_3d466833_chunk_0197"
+          ]
+        },
+        "hybrid": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0218",
+            "doc_3d466833_chunk_0220",
+            "doc_3d466833_chunk_0219",
+            "doc_3d466833_chunk_0197",
+            "doc_3d466833_chunk_0011"
+          ]
+        },
+        "hybrid_reranker": {
+          "recall_at_5": 1.0,
+          "mrr_at_5": 1.0,
+          "ndcg_at_5": 1.0,
+          "top_5_chunk_ids": [
+            "doc_3d466833_chunk_0218",
+            "doc_3d466833_chunk_0197",
+            "doc_3d466833_chunk_0249",
+            "doc_3d466833_chunk_0196",
+            "doc_3d466833_chunk_0356"
+          ]
+        }
+      }
+    }
+  ]
+}

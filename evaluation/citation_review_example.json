@@ -1,0 +1,32 @@
+{
+  "origin": "用户提供的 2026-10-23 EvidenceScope 页面截图；年报需由运行者自行从官方来源下载",
+  "claims": [
+    {
+      "claim": "2025 年营业收入：比亚迪约 8,039.65 亿元，宁德时代约 4,237.02 亿元。",
+      "citations": [
+        {"source": "BYD_2025.pdf", "pdf_page": 29, "chunk_id": "doc_e0279074_chunk_0103"},
+        {"source": "CATL_2025.pdf", "pdf_page": 116, "chunk_id": "doc_1a641bba_chunk_0702"}
+      ],
+      "supported": true,
+      "review_note": "BYD 原文为 803,964,958,000 元；CATL 合并利润表为 423,701,834 千元。换算为亿元后按两位小数舍入。"
+    },
+    {
+      "claim": "按原值计算，比亚迪约为宁德时代的 1.90 倍，差额约 3,802.63 亿元。",
+      "citations": [
+        {"source": "BYD_2025.pdf", "pdf_page": 29, "chunk_id": "doc_e0279074_chunk_0103"},
+        {"source": "CATL_2025.pdf", "pdf_page": 116, "chunk_id": "doc_1a641bba_chunk_0702"}
+      ],
+      "supported": true,
+      "review_note": "将 BYD 元单位换算为千元后，803,964,958 ÷ 423,701,834 ≈ 1.898；差额 380,263,124 千元，即约 3,802.63 亿元。"
+    },
+    {
+      "claim": "宁德时代营业收入同比增长 17.04%，高于比亚迪的 3.46%。",
+      "citations": [
+        {"source": "BYD_2025.pdf", "pdf_page": 29, "chunk_id": "doc_e0279074_chunk_0103"},
+        {"source": "CATL_2025.pdf", "pdf_page": 24, "chunk_id": "doc_1a641bba_chunk_0089"}
+      ],
+      "supported": true,
+      "review_note": "两份年报的营业收入构成表分别直接列出同比增减 3.46% 和 17.04%。"
+    }
+  ]
+}

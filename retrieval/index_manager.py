@@ -190,6 +190,10 @@ class IndexManager:
             path = path.resolve() # 相对路径转化为绝对路径
             document_id = self._make_document_id(path)
             stat = path.stat() # 读取文件属性
+            digest = hashlib.sha256()
+            with path.open("rb") as source:
+                for block in iter(lambda: source.read(1024 * 1024), b""):
+                    digest.update(block)
             pdf_paths[document_id] = path
             documents[document_id] = {
                 "document_id": document_id,
@@ -197,6 +201,7 @@ class IndexManager:
                 "source_path": path.relative_to(self.data_dir).as_posix(),
                 "file_size": stat.st_size,
                 "modified_time_ns": stat.st_mtime_ns,
+                "content_sha256": digest.hexdigest(),
             }
         return pdf_paths, documents
 
@@ -259,7 +264,7 @@ class IndexManager:
 
     @staticmethod
     def _file_changed(current, old):
-        fields = ("source_path", "file_size", "modified_time_ns")
+        fields = ("source_path", "file_size", "modified_time_ns", "content_sha256")
         return any(current[field] != old.get(field) for field in fields)
 
     @staticmethod
