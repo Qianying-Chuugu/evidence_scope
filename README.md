@@ -142,6 +142,7 @@ evidence_scope/
 ├── data/indexes/             # 运行时生成的索引，内容不提交
 ├── requirements.txt          # Python 依赖
 ├── requirements-test.txt     # CI 使用的轻量测试依赖
+├── LICENSE                   # 项目代码的 MIT 许可证
 └── .env.example              # API Key 配置示例
 ```
 
@@ -184,3 +185,7 @@ evidence_scope/
 - PDF 需能提取足够文字；目前没有 OCR。复杂表格的提取顺序可能影响检索，过短的页面不会进入索引。
 - 文件名、页码和 Chunk ID 来自检索结果，但最终引用由模型生成；位置核查不能替代语义支持性判断，重要结论应人工复核。
 - 后续可扩展跨文档评估集，并收集真实回答进行人工引用支持性评审。
+
+## 许可证
+
+项目代码采用 [MIT License](LICENSE)。示例 PDF、第三方模型及依赖分别遵循其原始来源的授权条款。
