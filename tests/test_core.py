@@ -1,6 +1,7 @@
 import io
 import json
 import copy
+import math
 import os
 import tempfile
 import unittest
@@ -49,11 +50,24 @@ def message(content=None, calls=None):
 
 
 class FusionTests(unittest.TestCase):
-    def test_recall_counts_all_relevant_chunks(self):
+    def test_overlapping_chunks_count_as_one_evidence_group(self):
         ranking = [{"chunk_id": "a"}, {"chunk_id": "x"}]
-        result = scores(ranking, {"a", "b"}, k=2)
-        self.assertEqual(result["recall_at_2"], 0.5)
+        result = scores(ranking, [{"a", "b"}], k=2)
+        self.assertEqual(result["hit_at_2"], 1)
+        self.assertEqual(result["evidence_recall_at_2"], 1.0)
         self.assertEqual(result["mrr_at_2"], 1.0)
+        self.assertEqual(result["evidence_ndcg_at_2"], 1.0)
+        duplicates = scores([{"chunk_id": "a"}, {"chunk_id": "b"}], [{"a", "b"}], k=2)
+        self.assertEqual(duplicates["evidence_ndcg_at_2"], 1.0)
+
+    def test_multiple_distinct_evidence_groups(self):
+        ranking = [{"chunk_id": "a"}, {"chunk_id": "c"}]
+        result = scores(ranking, [{"a", "b"}, {"c"}], k=2)
+        self.assertEqual(result["evidence_recall_at_2"], 1.0)
+        self.assertAlmostEqual(result["evidence_ndcg_at_2"], (1 + 1 / math.log2(3)) / 2)
+        partial = scores(ranking[:1], [{"a", "b"}, {"c"}], k=2)
+        self.assertEqual(partial["evidence_recall_at_2"], 0.5)
+        self.assertEqual(partial["hit_at_2"], 1)
 
     def test_weights_deduplication_and_ranks(self):
         def item(name):

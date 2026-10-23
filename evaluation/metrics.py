@@ -1,18 +1,37 @@
-"""Retrieval metrics for binary relevance labels."""
+"""Metrics over annotated evidence groups, not overlapping chunk copies."""
 
 import math
 
 
-def scores(results, relevant, k=5):
-    if not relevant:
-        raise ValueError("At least one relevant chunk is required")
-    hits = [int(result["chunk_id"] in relevant) for result in results[:k]]
-    recall = sum(hits) / len(relevant)
-    reciprocal_rank = next((1 / rank for rank, hit in enumerate(hits, 1) if hit), 0)
-    dcg = sum(hit / math.log2(rank + 1) for rank, hit in enumerate(hits, 1))
-    ideal = sum(1 / math.log2(rank + 1) for rank in range(1, min(k, len(relevant)) + 1))
+def scores(results, evidence_groups, k=5):
+    """Count each required evidence passage once, regardless of chunk overlap.
+
+    Each group contains the chunk IDs that reproduce one annotated passage.
+    A result can cover several groups; later overlapping copies add no credit.
+    """
+    if k <= 0:
+        raise ValueError("k must be positive")
+    groups = [set(group) for group in evidence_groups]
+    if not groups or any(not group for group in groups):
+        raise ValueError("At least one nonempty evidence group is required")
+
+    first_ranks = {}
+    for rank, result in enumerate(results[:k], start=1):
+        chunk_id = result["chunk_id"]
+        for index, group in enumerate(groups):
+            if index not in first_ranks and chunk_id in group:
+                first_ranks[index] = rank
+
+    first_hit = min(first_ranks.values(), default=None)
+    # The ideal score is one first-rank hit per evidence group. This custom
+    # group-level discounted coverage is bounded by 1 even when one chunk
+    # contains several distinct passages.
+    discounted_coverage = sum(
+        1 / math.log2(rank + 1) for rank in first_ranks.values()
+    ) / len(groups)
     return {
-        f"recall_at_{k}": recall,
-        f"mrr_at_{k}": reciprocal_rank,
-        f"ndcg_at_{k}": dcg / ideal,
+        f"hit_at_{k}": int(first_hit is not None),
+        f"evidence_recall_at_{k}": len(first_ranks) / len(groups),
+        f"mrr_at_{k}": 1 / first_hit if first_hit is not None else 0.0,
+        f"evidence_ndcg_at_{k}": discounted_coverage,
     }

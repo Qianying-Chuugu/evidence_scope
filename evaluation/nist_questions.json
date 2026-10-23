@@ -1,22 +1,205 @@
-[
-  {"id": "nist-01", "query": "Why is GOVERN a cross-cutting function in the AI RMF?", "page": 27, "evidence_quote": "GOVERN is a cross-cutting function that is infused throughout AI risk management"},
-  {"id": "nist-02", "query": "What are the four core functions of the NIST AI RMF?", "page": 8, "evidence_quote": "GOVERN,\nMAP, MEASURE, and MANAGE"},
-  {"id": "nist-03", "query": "Why does the MAP function provide a basis for MEASURE and MANAGE?", "page": 30, "evidence_quote": "Outcomes in the\nMAP function are the basis for the MEASURE and MANAGE functions"},
-  {"id": "nist-04", "query": "What methods does the MEASURE function use to analyze AI risk?", "page": 33, "evidence_quote": "The MEASURE function employs quantitative, qualitative, or mixed-method tools"},
-  {"id": "nist-05", "query": "How does the MANAGE function allocate resources to risks?", "page": 36, "evidence_quote": "The MANAGE function entails allocating risk resources to mapped and measured risks"},
-  {"id": "nist-06", "query": "How does the framework define risk tolerance?", "page": 12, "evidence_quote": "Risk\ntolerance refers to the organization’s or AI actor’s"},
-  {"id": "nist-07", "query": "Why can trying to eliminate all negative AI risk be counterproductive?", "page": 12, "evidence_quote": "Attempting to eliminate negative risk entirely can be counterproductive"},
-  {"id": "nist-08", "query": "How can third-party data and software complicate risk measurement?", "page": 10, "evidence_quote": "They also\nmay complicate risk measurement"},
-  {"id": "nist-09", "query": "Why does NIST describe AI systems as socio-technical?", "page": 6, "evidence_quote": "AI systems are inherently socio-technical in nature"},
-  {"id": "nist-10", "query": "Which characteristics are included in trustworthy AI?", "page": 17, "evidence_quote": "Characteristics of trustworthy AI\nsystems include"},
-  {"id": "nist-11", "query": "Why must AI trustworthiness characteristics be balanced?", "page": 18, "evidence_quote": "A comprehensive approach to risk management calls for balancing tradeoffs"},
-  {"id": "nist-12", "query": "How is robustness or generalizability defined?", "page": 19, "evidence_quote": "ability of a system to maintain its level\nof performance under a variety of circumstances"},
-  {"id": "nist-13", "query": "What practical approaches can support AI safety?", "page": 20, "evidence_quote": "rigorous simulation and in-domain\ntesting, real-time monitoring"},
-  {"id": "nist-14", "query": "What stages and information does AI transparency cover?", "page": 20, "evidence_quote": "scope spans from design decisions and training data to model train-"},
-  {"id": "nist-15", "query": "What does the framework say about copyright and training data?", "page": 21, "evidence_quote": "Training data may also be subject to copyright"},
-  {"id": "nist-16", "query": "How can risks to interpretability be addressed?", "page": 22, "evidence_quote": "Risks to interpretability often can be addressed by communicating"},
-  {"id": "nist-17", "query": "What issues does fairness in AI include?", "page": 22, "evidence_quote": "Fairness in AI includes concerns for equality and equity"},
-  {"id": "nist-18", "query": "Must the AI RMF functions be performed in a fixed order?", "page": 26, "evidence_quote": "functions may be performed in any order across the AI lifecycle"},
-  {"id": "nist-19", "query": "What does MAP 3.5 require for human oversight?", "page": 32, "evidence_quote": "MAP 3.5: Processes for human oversight are defined, assessed"},
-  {"id": "nist-20", "query": "What does GOVERN 5.1 require regarding external feedback?", "page": 29, "evidence_quote": "GOVERN 5.1: Organizational policies and practices are in place"}
-]
+{
+  "version": 2,
+  "questions": [
+    {
+      "id": "nist-01",
+      "query": "Why is GOVERN a cross-cutting function in the AI RMF?",
+      "evidence_groups": [
+        {
+          "page": 27,
+          "quote": "GOVERN is a cross-cutting function that is infused throughout AI risk management"
+        }
+      ]
+    },
+    {
+      "id": "nist-02",
+      "query": "What are the four core functions of the NIST AI RMF?",
+      "evidence_groups": [
+        {
+          "page": 8,
+          "quote": "GOVERN,\nMAP, MEASURE, and MANAGE"
+        }
+      ]
+    },
+    {
+      "id": "nist-03",
+      "query": "Why does the MAP function provide a basis for MEASURE and MANAGE?",
+      "evidence_groups": [
+        {
+          "page": 30,
+          "quote": "Outcomes in the\nMAP function are the basis for the MEASURE and MANAGE functions"
+        }
+      ]
+    },
+    {
+      "id": "nist-04",
+      "query": "What methods does the MEASURE function use to analyze AI risk?",
+      "evidence_groups": [
+        {
+          "page": 33,
+          "quote": "The MEASURE function employs quantitative, qualitative, or mixed-method tools"
+        }
+      ]
+    },
+    {
+      "id": "nist-05",
+      "query": "How does the MANAGE function allocate resources to risks?",
+      "evidence_groups": [
+        {
+          "page": 36,
+          "quote": "The MANAGE function entails allocating risk resources to mapped and measured risks"
+        }
+      ]
+    },
+    {
+      "id": "nist-06",
+      "query": "How does the framework define risk tolerance?",
+      "evidence_groups": [
+        {
+          "page": 12,
+          "quote": "Risk\ntolerance refers to the organization’s or AI actor’s"
+        }
+      ]
+    },
+    {
+      "id": "nist-07",
+      "query": "Why can trying to eliminate all negative AI risk be counterproductive?",
+      "evidence_groups": [
+        {
+          "page": 12,
+          "quote": "Attempting to eliminate negative risk entirely can be counterproductive"
+        }
+      ]
+    },
+    {
+      "id": "nist-08",
+      "query": "How can third-party data and software complicate risk measurement?",
+      "evidence_groups": [
+        {
+          "page": 10,
+          "quote": "They also\nmay complicate risk measurement"
+        }
+      ]
+    },
+    {
+      "id": "nist-09",
+      "query": "Why does NIST describe AI systems as socio-technical?",
+      "evidence_groups": [
+        {
+          "page": 6,
+          "quote": "AI systems are inherently socio-technical in nature"
+        }
+      ]
+    },
+    {
+      "id": "nist-10",
+      "query": "Which characteristics are included in trustworthy AI?",
+      "evidence_groups": [
+        {
+          "page": 17,
+          "quote": "Characteristics of trustworthy AI\nsystems include"
+        }
+      ]
+    },
+    {
+      "id": "nist-11",
+      "query": "Why must AI trustworthiness characteristics be balanced?",
+      "evidence_groups": [
+        {
+          "page": 18,
+          "quote": "A comprehensive approach to risk management calls for balancing tradeoffs"
+        }
+      ]
+    },
+    {
+      "id": "nist-12",
+      "query": "How is robustness or generalizability defined?",
+      "evidence_groups": [
+        {
+          "page": 19,
+          "quote": "ability of a system to maintain its level\nof performance under a variety of circumstances"
+        }
+      ]
+    },
+    {
+      "id": "nist-13",
+      "query": "What practical approaches can support AI safety?",
+      "evidence_groups": [
+        {
+          "page": 20,
+          "quote": "rigorous simulation and in-domain\ntesting, real-time monitoring"
+        }
+      ]
+    },
+    {
+      "id": "nist-14",
+      "query": "What stages and information does AI transparency cover?",
+      "evidence_groups": [
+        {
+          "page": 20,
+          "quote": "scope spans from design decisions and training data to model train-"
+        }
+      ]
+    },
+    {
+      "id": "nist-15",
+      "query": "What does the framework say about copyright and training data?",
+      "evidence_groups": [
+        {
+          "page": 21,
+          "quote": "Training data may also be subject to copyright"
+        }
+      ]
+    },
+    {
+      "id": "nist-16",
+      "query": "How can risks to interpretability be addressed?",
+      "evidence_groups": [
+        {
+          "page": 22,
+          "quote": "Risks to interpretability often can be addressed by communicating"
+        }
+      ]
+    },
+    {
+      "id": "nist-17",
+      "query": "What issues does fairness in AI include?",
+      "evidence_groups": [
+        {
+          "page": 22,
+          "quote": "Fairness in AI includes concerns for equality and equity"
+        }
+      ]
+    },
+    {
+      "id": "nist-18",
+      "query": "Must the AI RMF functions be performed in a fixed order?",
+      "evidence_groups": [
+        {
+          "page": 26,
+          "quote": "functions may be performed in any order across the AI lifecycle"
+        }
+      ]
+    },
+    {
+      "id": "nist-19",
+      "query": "What does MAP 3.5 require for human oversight?",
+      "evidence_groups": [
+        {
+          "page": 32,
+          "quote": "MAP 3.5: Processes for human oversight are defined, assessed"
+        }
+      ]
+    },
+    {
+      "id": "nist-20",
+      "query": "What does GOVERN 5.1 require regarding external feedback?",
+      "evidence_groups": [
+        {
+          "page": 29,
+          "quote": "GOVERN 5.1: Organizational policies and practices are in place"
+        }
+      ]
+    }
+  ]
+}
